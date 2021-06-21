@@ -107,4 +107,20 @@ public class Vector
         }
         return str;
     }
+
+    public static float SqrMagnitude(Vector a)
+    {
+        float result = 0.0f;
+        for (int i = 0; i < a.length; i++)
+        {
+            var val = a.val[i];
+            result += val.real * val.real + val.imaginary * val.imaginary;
+        }
+        return result;
+    }
+
+    public static float Magnitude(Vector a)
+    {
+        return Mathf.Sqrt(SqrMagnitude(a));
+    }
 }

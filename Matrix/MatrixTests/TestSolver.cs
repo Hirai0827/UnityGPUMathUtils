@@ -21,11 +21,11 @@ public class TestSolver
     {
         var A1 = new Matrix(new Complex[,] {{100,0},{0,1}} );
         var b1 = new Vector(new Complex[] {2,100});
-        AssertSolveSuccessfullyOnGPU(A1,b1,100,1.0f);
+        AssertSolveSuccessfullyOnGPU(A1,b1,100, 0.5f);
         var A2 = new Matrix(new Complex[,] { {3,2,4}, {1,2,0},{2,1,5} });
         var b2 = new Vector(new Complex[] {7,5,8});
-        AssertSolveSuccessfully(A2, b2,100000,0.5f);
-        AssertSolveSuccessfullyOnGPU(A2, b2, 100000, 0.5f);
+        AssertSolveSuccessfully(A2, b2,100000,0.25f);
+        AssertSolveSuccessfullyOnGPU(A2, b2, 100000, 0.25f);
     }
     [Test]
     public void TestMul()
@@ -46,7 +46,7 @@ public class TestSolver
     {
         var x = MatrixSolver.SolveLinearByJacobi(A,b,iter,omega);
         Debug.Log(x);
-        //Assert.IsTrue(A*x==b);
+        Assert.IsTrue(Vector.SqrMagnitude(A * x - b) < 0.001);
     }
 
     private void AssertSolveSuccessfullyOnGPU(Matrix A, Vector b, int iter, float omega)
@@ -55,6 +55,6 @@ public class TestSolver
         var mulMatrix = (ComputeShader)Resources.Load("MulMatrix");
         var x = MatrixSolver.SolveLinearByJacobiOnGPU(A, b,jacobiStep, mulMatrix, iter, omega);
         Debug.Log(x);
-        Assert.IsTrue(A * x == b);
+        Assert.IsTrue(Vector.SqrMagnitude(A * x - b) < 0.001);
     }
 }
