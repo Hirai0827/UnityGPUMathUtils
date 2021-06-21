@@ -1,0 +1,16 @@
+{
+    "name": "QuickSilver",
+    "rootNamespace": "",
+    "references": [
+        "GUID:766e1acda6d78ab498532497e786e172"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

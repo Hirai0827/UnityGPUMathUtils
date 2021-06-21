@@ -1,0 +1,39 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel JacobiStep
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+
+RWStructuredBuffer<float> _x_src;
+RWStructuredBuffer<float> _x_dest;
+RWStructuredBuffer<float> _A;
+RWStructuredBuffer<float> _b;
+int _Size;
+int _CellSize;
+float _omega;
+
+[numthreads(16,1,1)]
+void JacobiStep (uint3 id : SV_DispatchThreadID)
+{
+    int yi = id.x;
+    if(yi >= _Size){
+        return;
+    }
+//for (int xi = 0; xi < A_dash.W; xi++)
+//{
+  //if(xi == yi)
+  //{
+    //continue;
+  //}
+  //sum += A_dash.val[yi,xi] * result.val[xi];
+//}
+//result.val[yi] = (b_dash.val[yi] - sum) / A_dash.val[yi, yi];
+    float sum = 0.0f;
+    for(int xi = 0;xi < _Size; xi++){
+        if(xi != yi){
+            sum += _A[yi*_CellSize+xi] * _x_src[xi];
+        }
+    }
+    _x_dest[yi] = _x_src[yi] * (1.0 - _omega) + (_b[yi]-sum)/_A[yi*_CellSize+yi]*(_omega);
+    
+}

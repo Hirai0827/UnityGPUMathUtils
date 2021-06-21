@@ -1,0 +1,31 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel MulMatrix
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWStructuredBuffer<float> _A;
+RWStructuredBuffer<float> _B;
+RWStructuredBuffer<float> _Result;
+int _Size_A_W;
+int _Size_A_H;
+int _Size_B_W;
+int _Size_B_H;
+int _CellSize_A_W;
+int _CellSize_A_H;
+int _CellSize_B_W;
+int _CellSize_B_H;
+
+[numthreads(16,16,1)]
+void MulMatrix (uint3 id : SV_DispatchThreadID)
+{
+	int yi = id.x;
+	int xi = id.y;
+	float sum = 0.0f;
+	for(int i = 0; i < _Size_A_W; i++){
+        //result.val[yi, xi] += A.val[yi,j] * B.val[j,xi];
+		sum += _A[yi * _CellSize_A_W +  i] * _B[i * _CellSize_B_W + xi];
+	}
+	_Result[yi * _CellSize_B_W + xi] = sum;
+
+
+}
