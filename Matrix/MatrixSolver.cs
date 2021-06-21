@@ -162,6 +162,10 @@ public class MatrixSolver
         {
             x.val[i] = result[i];
         }
+        x_src.Release();
+        x_dest.Release();
+        A_dash_tex.Release();
+        b_dash_tex.Release();
         return x;
         
 
@@ -294,6 +298,9 @@ public class MatrixSolver
                 X.val[yi, xi] = result[yi * cellSize_B_W + xi];
             }
         }
+        bufferA.Release();
+        bufferB.Release();
+        bufferResult.Release();
         return X;
     }
 
