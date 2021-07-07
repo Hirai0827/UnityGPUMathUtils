@@ -61,6 +61,51 @@ public class Graph
     {
         return this.hasEdgeSet[from].Contains(to);
     }
+
+    public List<int> TopologicalSort()
+    {
+        var result = new List<int>();
+        var visit = new List<bool>(this.size);
+        for (int i = 0; i < this.size; i++)
+        {
+            visit.Add(false);
+        }
+        void rec(int v)
+        {
+            visit[v] = true;
+            foreach (var i in edgeList[v])
+            {
+                if (visit[i.to]) continue;
+                rec(i.to);
+            }
+            result.Add(v);
+        };
+        for (int i = 0; i < this.size; i++)
+        {
+            if (visit[i]) continue;
+            rec(i);
+        }
+        result.Reverse();
+        return result;
+    }
+
+    public bool HasLoop()
+    {
+        var hasLoop = false;
+        var hasVisited = new List<bool>(this.size);
+        var hasFinished = new List<bool>(this.size);
+        for (int i = 0; i < this.size; i++)
+        {
+            hasVisited[i] = false;
+            hasFinished[i] = false;
+        }
+        for (int i = 0; i < this.size; i++)
+        {
+            if (hasVisited[i]) continue;
+
+        }
+        throw new NotImplementedException();
+    }
     //TODO Utilsを生やす
     public List<List<int>> CalcAllDistances()
     {
@@ -77,6 +122,10 @@ public class Graph
             return CalcDistanceFromByBFS(index);
         }
         //TODO ダイクストラ法の実装
+        if (!hasMinusWeight)
+        {
+            return CalcDistanceByDijkstra(index);
+        }
         //TODO ベルマンフォード法の実装
         throw new Exception();
     }
@@ -104,6 +153,12 @@ public class Graph
             }
         }
         return result;
+    }
+
+    private List<int> CalcDistanceByDijkstra(int index)
+    {
+        throw new NotImplementedException();
+        return new List<int>();
     }
 
     //グラフの直径について
