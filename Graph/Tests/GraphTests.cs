@@ -51,4 +51,18 @@ public class GraphTests
         Debug.Log("----------------------------");
         Assert.AreEqual(G.Size, sorted.Count);
     }
+    [Test]
+    public void TestLoopDetection()
+    {
+        var G = new Graph(5, true);
+        G.AddEdge(0, 1);
+        G.AddEdge(0, 2);
+        G.AddEdge(1, 3);
+        G.AddEdge(2, 3);
+        G.AddEdge(3, 4);
+        G.AddEdge(0, 4);
+        Assert.False(G.HasLoop());
+        G.AddEdge(3,0);
+        Assert.True(G.HasLoop());
+    }
 }

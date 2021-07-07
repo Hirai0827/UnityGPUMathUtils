@@ -96,15 +96,35 @@ public class Graph
         var hasFinished = new List<bool>(this.size);
         for (int i = 0; i < this.size; i++)
         {
-            hasVisited[i] = false;
-            hasFinished[i] = false;
+            hasVisited.Add(false);
+            hasFinished.Add(false);
+        }
+        void dfs(int i)
+        {
+            hasVisited[i] = true;
+            foreach (var x in edgeList[i])
+            {
+                if(hasVisited[x.to] && hasFinished[x.to])
+                {
+                    continue;
+                }
+                if (hasVisited[x.to] && !hasFinished[x.to])
+                {
+                    hasLoop = true;
+                    continue;
+                }
+                dfs(x.to);
+            }
+            hasFinished[i] = true;
         }
         for (int i = 0; i < this.size; i++)
         {
-            if (hasVisited[i]) continue;
+            if (hasFinished[i]) continue;
+            dfs(i);
+
 
         }
-        throw new NotImplementedException();
+        return hasLoop;
     }
     //TODO Utils�𐶂₷
     public List<List<int>> CalcAllDistances()
